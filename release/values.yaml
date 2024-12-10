@@ -1,0 +1,63 @@
+#serviceAccount:
+#  annotations:
+#    "eks.amazonaws.com/role-arn": "arn:aws:iam::${aws_account_id}:role/${cluster_name}-external-dns"
+
+#sources:
+#  - service
+#  - ingress
+#  - istio-gateway
+
+#triggerLoopOnEvent: true
+
+#interval: 60m
+
+#txtOwnerId: "${cluster_name}"
+
+#domainFilters:
+#  - "${cluster_domain}
+
+#provider: aws
+
+#aws:
+#  zoneType: public
+#  zonesCacheDuration: 300s
+
+#policy: sync
+
+nodeSelector:
+  nodegroup: management-nodes
+
+tolerations:
+  - key: "dedicated"
+    operator: "Equal"
+    value: management
+    effect: "NoSchedule"
+
+#podDisruptionBudget:
+#  enabled: true
+#  minAvailable: 1
+
+#affinity:
+#  podAntiAffinity:
+#    preferredDuringSchedulingIgnoredDuringExecution:
+#      - podAffinityTerm:
+#          labelSelector:
+#            matchLabels:
+#              app.kubernetes.io/name: external-dns
+#          topologyKey: kubernetes.io/hostname
+#        weight: 1
+
+#topologySpreadConstraints:
+#  - labelSelector:
+#      matchLabels:
+#        app.kubernetes.io/name: external-dns
+#    maxSkew: 1
+#    topologyKey: "topology.kubernetes.io/zone"
+#    whenUnsatisfiable: "DoNotSchedule"
+#  - labelSelector:
+#      matchLabels:
+#        app.kubernetes.io/name: external-dns
+#    maxSkew: 1
+#    topologyKey: "kubernetes.io/hostname"
+#    whenUnsatisfiable: "DoNotSchedule"
+
